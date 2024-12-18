@@ -16,8 +16,8 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 loop = asyncio.get_event_loop()
 
-TOKEN = '7206133437:AAEk6NsuBKecVuvxIK6G9VWhHtM1HS8FWXk'
-MONGO_URI = 'mongodb+srv://piroop:piroop@piro.hexrg9w.mongodb.net/?retryWrites=true&w=majority&appName=piro&tlsAllowInvalidCertificates=true'
+TOKEN = '7554691620:AAFRoFOGv8yMMAGmI3JhVitV50y7qBO5_UU'
+MONGO_URI = 'mongodb+srv://Bishal:Bishal@bishal.dffybpx.mongodb.net/?retryWrites=true&w=majority&appName=Bishal'
 FORWARD_CHANNEL_ID = -1002338525976
 CHANNEL_ID = -1002338525976
 error_channel_id = -1002338525976
