@@ -20,12 +20,12 @@ from raj import TOKEN, FORWARD_CHANNEL_ID, CHANNEL_ID, error_channel_id
 loop = asyncio.get_event_loop()
 
 
-MONGO_URI = 'mongodb+srv://ww6715014:pramod74567890@madarchod.zabgi.mongodb.net/?retryWrites=true&w=majority&appName=Madarchod'
+MONGO_URI = 'mongodb+srv://Kamisama:Kamisama@kamisama.m6kon.mongodb.net/'
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
-db = client['madharchod']
+db = client['raja']
 users_collection = db.users
 
 bot = telebot.TeleBot(TOKEN)
