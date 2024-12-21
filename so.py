@@ -15,11 +15,11 @@ logger = logging.getLogger(__name__)
 
 MONGO_URI = 'mongodb+srv://Vampirexcheats:vampirexcheats1@cluster0.omdzt.mongodb.net/TEST?retryWrites=true&w=majority&appName=Cluster0'
 client = MongoClient(MONGO_URI)
-db = client['rajai']
+db = client['rabv']
 users_collection = db['VAMPIREXCHEATS']
 redeem_codes_collection = db['redeem_codes0']
 
-TELEGRAM_BOT_TOKEN = '8050966708:AAHI-Omn_kdI9ZVhTl5JWIOR65LcPYfOSzA'
+TELEGRAM_BOT_TOKEN = '7750901619:AAFJbawh2Qd0FCFcCJ9loNskLF-f8ac9ud0'
 ADMIN_USER_ID = 7855020275 
 
 cooldown_dict = {}
@@ -92,7 +92,7 @@ async def attack(update: Update, context: CallbackContext):
     
     # Check user authorization
     if not await is_user_allowed(user_id):
-        await context.bot.send_message(chat_id=chat_id, text="*ruk access le phale*", parse_mode='Markdown')
+        await context.bot.send_message(chat_id=chat_id, text="*ruk access le phale dm @rajaraj_04*", parse_mode='Markdown')
         return
     
     # Validate attack arguments
@@ -111,8 +111,8 @@ async def attack(update: Update, context: CallbackContext):
     # Validate duration
     try:
         duration = int(duration)
-        if duration > 200:  # New duration limit
-            response = "*ruk madharcod 🥵200 200 krke do lgale lode.*" 
+        if duration > 300:  # New duration limit
+            response = "*ruk madharcod 🥵300 krke lgale lode.*" 
             await context.bot.send_message(chat_id=chat_id, text=response, parse_mode='Markdown') 
             return
     except ValueError:
@@ -120,7 +120,7 @@ async def attack(update: Update, context: CallbackContext):
         return
     
     # Cooldown check
-    cooldown_period = 60
+    cooldown_period = 120
     current_time = datetime.now()
     if user_id in cooldown_dict:
         time_diff = (current_time - cooldown_dict[user_id]).total_seconds()
@@ -128,7 +128,7 @@ async def attack(update: Update, context: CallbackContext):
             remaining_time = cooldown_period - int(time_diff)
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"*Wait {remaining_time} seconds before next attack*",
+                text=f"*madharcod 😡 {remaining_time} ruk ja lode ak khatam hone de*",
                 parse_mode='Markdown'
             )
             return
